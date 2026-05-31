@@ -84,7 +84,7 @@ private:
 	void OnRep_XP(int32 OldXP);
 
 	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_AttribuetPoints)
-	int32 AttributePoints = 1;
+	int32 AttributePoints = 0;
 
 	UFUNCTION()
 	void OnRep_AttribuetPoints();

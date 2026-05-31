@@ -53,6 +53,8 @@ public:
 	FGameplayTag InputTag_2; // Key 2
 	FGameplayTag InputTag_3; // Key 3
 	FGameplayTag InputTag_4; // Key 4
+	FGameplayTag InputTag_Passive_1; // Passive Abilities（只是为了在控件中显示）
+	FGameplayTag InputTag_Passive_2; 
 
 	FGameplayTag Damage;
 	FGameplayTag Damage_Fire;

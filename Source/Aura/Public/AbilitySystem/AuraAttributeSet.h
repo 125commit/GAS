@@ -75,6 +75,8 @@ public:
 
 	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
 
+	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+
 	/*
 	* Primary Attributes
 	 */
@@ -259,4 +261,7 @@ private:
 	void ShowFloatingText(const FEffectProperties& Props, float Damage,  bool bBlockHit, bool bCriticalHit);
 
 	void SendXPEvent(const FEffectProperties& Props);
+
+	bool bTopOffHealth = false;
+	bool bTopOffMana = false;
 };

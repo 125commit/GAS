@@ -7,6 +7,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Player/AuraPlayerState.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
+#include "AuraGameplayTags.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -78,7 +79,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			}
 		);
 
-		
+		GetAuraASC()->AbilityEquippedDelegate.AddUObject(this, &UOverlayWidgetController::OnAbilityEquip);
 	}
 
 	
@@ -107,8 +108,24 @@ void UOverlayWidgetController::OnXPChanged(int32 NewXP)
 		OnXPPercentChangedDelegate.Broadcast(XPBarPercent);
 
 	}
-
-
 }
 
+void UOverlayWidgetController::OnAbilityEquip(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& PreviousSlot, const FGameplayTag& Slot)
+{
+	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+
+	//处理“旧槽位”的状态广播（清空旧槽位信息）
+	/* Only if equipped an already_equipped spell */
+	FAuraAbilityInfo LastSlotInfo;
+	LastSlotInfo.AbilityTag = GameplayTags.Abilities_None;
+	LastSlotInfo.StatusTag = GameplayTags.Abilities_Status_Unlocked;
+	LastSlotInfo.InputTag = PreviousSlot;
+	AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+	//处理“新槽位”的状态广播（设置新技能信息）
+	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoByTag(AbilityTag);
+	Info.StatusTag = Status;
+	Info.InputTag = Slot;
+	AbilityInfoDelegate.Broadcast(Info);
+}
 

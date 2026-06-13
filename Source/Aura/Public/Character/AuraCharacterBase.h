@@ -15,6 +15,7 @@ class UGameplayEffect;
 class UGameplayAbility;
 class UAnimMontage;
 class UNiagaraSystem;
+class UDebuffNiagaraComponent;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -38,6 +39,8 @@ public:
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 	virtual int32 GetMinionCount_Implementation() override;
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
+	virtual FOnASCRegistered GetOnASCRegisterddDelegate() override;
+	virtual FOnDeath GetOnDeathDelegate() override;
 	/* end Combat Interface */
 
 	UFUNCTION(NetMulticast, Reliable)
@@ -45,6 +48,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontage;	
+
+	FOnASCRegistered OnASCRegistered;
+	FOnDeath OnDeath;
 
 protected:
 	
@@ -70,7 +76,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName TailScoketName;
-	
 	
 
 	UPROPERTY()
@@ -122,6 +127,9 @@ protected:
 
 	/* Minions */
 	int32 MinionCount = 0;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UDebuffNiagaraComponent> BurnDebuffComponent;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")

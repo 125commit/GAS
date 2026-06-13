@@ -79,6 +79,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Level")
 	FOnPlayerStatChangedSignature OnPlayerLevelChangedDelegate;
 
+	void OnAbilityEquip(const FGameplayTag& AbilityTag, const FGameplayTag& Status,
+		const FGameplayTag& PreviousSlot, const FGameplayTag& Slot);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
 	TObjectPtr<UDataTable> MessageWidgetDataTable;

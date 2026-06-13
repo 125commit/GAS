@@ -28,6 +28,7 @@ public:
 	FPlayerStatChange OnXPChangeDelegate;
 	FPlayerStatChange OnLevelChangeDelegate;
 	FPlayerStatChange OnAttributePointsChangeDelegate;
+	FPlayerStatChange OnSpellPointsChangeDelegate;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
@@ -37,6 +38,7 @@ public:
 	FORCEINLINE int32 GetPlayerLevel() const { return Level; }
 	FORCEINLINE int32 GetXP() const { return XP; }
 	FORCEINLINE int32 GetAttributePoints() const { return AttributePoints; }
+	FORCEINLINE int32 GetSpellPoints() const { return SpellPoints; }
 
 	UFUNCTION(BlueprintCallable)
 	void SetXP(int32 InXP);
@@ -55,6 +57,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddToAttributePoints(int32 InAttributePoints);
+
+	UFUNCTION(BlueprintCallable)
+	void SetSpellPoints(int32 InSpellPoints);
+
+	UFUNCTION(BlueprintCallable)
+	void AddToSpellPoints(int32 InSpellPoints);
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<ULevelUpInfo> LevelUpInfo;
@@ -88,5 +96,11 @@ private:
 
 	UFUNCTION()
 	void OnRep_AttribuetPoints();
+
+	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_SpellPoints)
+	int32 SpellPoints = 0;
+
+	UFUNCTION()
+	void OnRep_SpellPoints();
 
 };

@@ -106,6 +106,7 @@ void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 	
 }
 
+
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
@@ -162,6 +163,7 @@ void AAuraEnemy::InitAbilityActorInfo()
 	{
 		InitializeDefaultAttributes();
 	}
+	OnASCRegistered.Broadcast(AbilitySystemComponent);
 
 }
 
